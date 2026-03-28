@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreateCustomerRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">customer-service</a> &gt; <a href="index.source.html" class="el_package">com.nttdata.customerservice.generated.model</a> &gt; <span class="el_source">CreateCustomerRequest.java</span></div><h1>CreateCustomerRequest.java</h1><pre class="source lang-java linenums">package com.nttdata.customerservice.generated.model;
+
+import java.net.URI;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
+
+/**
+ * CreateCustomerRequest
+ */
+
+@Generated(value = &quot;org.openapitools.codegen.languages.SpringCodegen&quot;, date = &quot;2026-03-27T16:22:09.449758600-05:00[America/Lima]&quot;, comments = &quot;Generator version: 7.5.0&quot;)
+public class CreateCustomerRequest {
+
+  private String firstName;
+
+  private String lastName;
+
+  private String documentType;
+
+  private String documentNumber;
+
+  private String email;
+
+  private String phone;
+
+  public CreateCustomerRequest() {
+<span class="fc" id="L37">    super();</span>
+<span class="fc" id="L38">  }</span>
+
+  /**
+   * Constructor with only required parameters
+   */
+<span class="nc" id="L43">  public CreateCustomerRequest(String firstName, String lastName, String documentType, String documentNumber, String email) {</span>
+<span class="nc" id="L44">    this.firstName = firstName;</span>
+<span class="nc" id="L45">    this.lastName = lastName;</span>
+<span class="nc" id="L46">    this.documentType = documentType;</span>
+<span class="nc" id="L47">    this.documentNumber = documentNumber;</span>
+<span class="nc" id="L48">    this.email = email;</span>
+<span class="nc" id="L49">  }</span>
+
+  public CreateCustomerRequest firstName(String firstName) {
+<span class="nc" id="L52">    this.firstName = firstName;</span>
+<span class="nc" id="L53">    return this;</span>
+  }
+
+  /**
+   * Get firstName
+   * @return firstName
+  */
+  @NotNull 
+  @Schema(name = &quot;firstName&quot;, requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty(&quot;firstName&quot;)
+  public String getFirstName() {
+<span class="fc" id="L64">    return firstName;</span>
+  }
+
+  public void setFirstName(String firstName) {
+<span class="fc" id="L68">    this.firstName = firstName;</span>
+<span class="fc" id="L69">  }</span>
+
+  public CreateCustomerRequest lastName(String lastName) {
+<span class="nc" id="L72">    this.lastName = lastName;</span>
+<span class="nc" id="L73">    return this;</span>
+  }
+
+  /**
+   * Get lastName
+   * @return lastName
+  */
+  @NotNull 
+  @Schema(name = &quot;lastName&quot;, requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty(&quot;lastName&quot;)
+  public String getLastName() {
+<span class="fc" id="L84">    return lastName;</span>
+  }
+
+  public void setLastName(String lastName) {
+<span class="fc" id="L88">    this.lastName = lastName;</span>
+<span class="fc" id="L89">  }</span>
+
+  public CreateCustomerRequest documentType(String documentType) {
+<span class="nc" id="L92">    this.documentType = documentType;</span>
+<span class="nc" id="L93">    return this;</span>
+  }
+
+  /**
+   * Get documentType
+   * @return documentType
+  */
+  @NotNull 
+  @Schema(name = &quot;documentType&quot;, example = &quot;DNI&quot;, requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty(&quot;documentType&quot;)
+  public String getDocumentType() {
+<span class="fc" id="L104">    return documentType;</span>
+  }
+
+  public void setDocumentType(String documentType) {
+<span class="fc" id="L108">    this.documentType = documentType;</span>
+<span class="fc" id="L109">  }</span>
+
+  public CreateCustomerRequest documentNumber(String documentNumber) {
+<span class="nc" id="L112">    this.documentNumber = documentNumber;</span>
+<span class="nc" id="L113">    return this;</span>
+  }
+
+  /**
+   * Get documentNumber
+   * @return documentNumber
+  */
+  @NotNull 
+  @Schema(name = &quot;documentNumber&quot;, requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty(&quot;documentNumber&quot;)
+  public String getDocumentNumber() {
+<span class="fc" id="L124">    return documentNumber;</span>
+  }
+
+  public void setDocumentNumber(String documentNumber) {
+<span class="fc" id="L128">    this.documentNumber = documentNumber;</span>
+<span class="fc" id="L129">  }</span>
+
+  public CreateCustomerRequest email(String email) {
+<span class="nc" id="L132">    this.email = email;</span>
+<span class="nc" id="L133">    return this;</span>
+  }
+
+  /**
+   * Get email
+   * @return email
+  */
+  @NotNull @jakarta.validation.constraints.Email 
+  @Schema(name = &quot;email&quot;, requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty(&quot;email&quot;)
+  public String getEmail() {
+<span class="fc" id="L144">    return email;</span>
+  }
+
+  public void setEmail(String email) {
+<span class="fc" id="L148">    this.email = email;</span>
+<span class="fc" id="L149">  }</span>
+
+  public CreateCustomerRequest phone(String phone) {
+<span class="nc" id="L152">    this.phone = phone;</span>
+<span class="nc" id="L153">    return this;</span>
+  }
+
+  /**
+   * Get phone
+   * @return phone
+  */
+  
+  @Schema(name = &quot;phone&quot;, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty(&quot;phone&quot;)
+  public String getPhone() {
+<span class="fc" id="L164">    return phone;</span>
+  }
+
+  public void setPhone(String phone) {
+<span class="fc" id="L168">    this.phone = phone;</span>
+<span class="fc" id="L169">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L173" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L174">      return true;</span>
+    }
+<span class="nc bnc" id="L176" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L177">      return false;</span>
+    }
+<span class="nc" id="L179">    CreateCustomerRequest createCustomerRequest = (CreateCustomerRequest) o;</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">    return Objects.equals(this.firstName, createCustomerRequest.firstName) &amp;&amp;</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">        Objects.equals(this.lastName, createCustomerRequest.lastName) &amp;&amp;</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        Objects.equals(this.documentType, createCustomerRequest.documentType) &amp;&amp;</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        Objects.equals(this.documentNumber, createCustomerRequest.documentNumber) &amp;&amp;</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        Objects.equals(this.email, createCustomerRequest.email) &amp;&amp;</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        Objects.equals(this.phone, createCustomerRequest.phone);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L190">    return Objects.hash(firstName, lastName, documentType, documentNumber, email, phone);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L195">    StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L196">    sb.append(&quot;class CreateCustomerRequest {\n&quot;);</span>
+<span class="nc" id="L197">    sb.append(&quot;    firstName: &quot;).append(toIndentedString(firstName)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L198">    sb.append(&quot;    lastName: &quot;).append(toIndentedString(lastName)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L199">    sb.append(&quot;    documentType: &quot;).append(toIndentedString(documentType)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L200">    sb.append(&quot;    documentNumber: &quot;).append(toIndentedString(documentNumber)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L201">    sb.append(&quot;    email: &quot;).append(toIndentedString(email)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L202">    sb.append(&quot;    phone: &quot;).append(toIndentedString(phone)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L203">    sb.append(&quot;}&quot;);</span>
+<span class="nc" id="L204">    return sb.toString();</span>
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+<span class="nc bnc" id="L212" title="All 2 branches missed.">    if (o == null) {</span>
+<span class="nc" id="L213">      return &quot;null&quot;;</span>
+    }
+<span class="nc" id="L215">    return o.toString().replace(&quot;\n&quot;, &quot;\n    &quot;);</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

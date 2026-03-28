@@ -1,0 +1,166 @@
+openapi: 3.0.3
+info:
+  title: Customer Service API
+  version: 1.0.0
+  description: Contract First API for customer operations
+servers:
+  - url: http://localhost:7002
+paths:
+  /api/customers:
+    post:
+      tags: [Customer]
+      summary: Create customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerRequest'
+      responses:
+        '201':
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Invalid request
+        '409':
+          description: Customer already exists
+    get:
+      tags: [Customer]
+      summary: List customers
+      operationId: getCustomers
+      parameters:
+        - name: documentNumber
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Customers retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerResponse'
+  /api/customers/{customerId}:
+    get:
+      tags: [Customer]
+      summary: Get customer by id
+      operationId: getCustomerById
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Customer found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Customer not found
+    put:
+      tags: [Customer]
+      summary: Update customer
+      operationId: updateCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerRequest'
+      responses:
+        '200':
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Customer not found
+    delete:
+      tags: [Customer]
+      summary: Delete customer
+      operationId: deleteCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Customer deleted
+        '404':
+          description: Customer not found
+components:
+  schemas:
+    CreateCustomerRequest:
+      type: object
+      required: [firstName, lastName, documentType, documentNumber, email]
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        documentType:
+          type: string
+          example: DNI
+        documentNumber:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+    UpdateCustomerRequest:
+      type: object
+      required: [firstName, lastName, email]
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        status:
+          type: string
+          example: ACTIVE
+    CustomerResponse:
+      type: object
+      properties:
+        customerId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        documentType:
+          type: string
+        documentNumber:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        status:
+          type: string
+        createdBy:
+          type: string

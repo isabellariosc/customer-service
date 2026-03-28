@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerValidationPolicy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">customer-service</a> &gt; <a href="index.source.html" class="el_package">com.nttdata.customerservice.domain.policy</a> &gt; <span class="el_source">CustomerValidationPolicy.java</span></div><h1>CustomerValidationPolicy.java</h1><pre class="source lang-java linenums">package com.nttdata.customerservice.domain.policy;
+
+import com.nttdata.customerservice.api.dto.CustomerCreateRequestDto;
+import com.nttdata.customerservice.api.dto.CustomerUpdateRequestDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
+
+@Component
+<span class="fc" id="L10">public class CustomerValidationPolicy {</span>
+
+    public void validateCreate(CustomerCreateRequestDto request) {
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">        if (request == null) {</span>
+<span class="nc" id="L14">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Customer payload is required&quot;);</span>
+        }
+<span class="pc bpc" id="L16" title="3 of 6 branches missed.">        if (isBlank(request.getFirstName()) || isBlank(request.getLastName()) || isBlank(request.getDocumentType())</span>
+<span class="pc bpc" id="L17" title="2 of 4 branches missed.">                || isBlank(request.getDocumentNumber()) || isBlank(request.getEmail())) {</span>
+<span class="nc" id="L18">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Missing required customer fields&quot;);</span>
+        }
+<span class="fc" id="L20">    }</span>
+
+    public void validateUpdate(String customerId, CustomerUpdateRequestDto request) {
+<span class="fc" id="L23">        validateCustomerId(customerId);</span>
+<span class="pc bpc" id="L24" title="3 of 6 branches missed.">        if (request == null || isBlank(request.getFirstName()) || isBlank(request.getLastName())</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">                || isBlank(request.getEmail())) {</span>
+<span class="nc" id="L26">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Invalid customer update payload&quot;);</span>
+        }
+<span class="fc" id="L28">    }</span>
+
+    public void validateCustomerId(String customerId) {
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (isBlank(customerId)) {</span>
+<span class="nc" id="L32">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Customer id is required&quot;);</span>
+        }
+<span class="fc" id="L34">    }</span>
+
+    public void validateRequestedBy(String requestedBy) {
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (isBlank(requestedBy)) {</span>
+<span class="nc" id="L38">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, &quot;Authenticated user is required&quot;);</span>
+        }
+<span class="fc" id="L40">    }</span>
+
+    private boolean isBlank(String value) {
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">        return value == null || value.isBlank();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

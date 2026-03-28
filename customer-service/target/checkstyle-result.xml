@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.12.4">
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\api\dto\CustomerCreateRequestDto.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\api\dto\CustomerResponseDto.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\api\dto\CustomerUpdateRequestDto.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\CustomerServiceApplication.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\domain\mapper\CustomerMapper.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\domain\policy\CustomerValidationPolicy.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\domain\port\CustomerRecord.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\domain\port\CustomerRepositoryPort.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\domain\port\CustomerUseCase.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\domain\service\CustomerService.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\domain\service\impl\CustomerServiceImpl.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\infrastructure\decorator\LoggingCustomerUseCaseDecorator.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\infrastructure\mongodb\CustomerDocument.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\infrastructure\mongodb\CustomerMongoRepository.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\infrastructure\mongodb\MongoCustomerDataInitializer.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\infrastructure\mongodb\MongoCustomerRepositoryAdapter.java">
+</file>
+<file name="D:\NTTFinal\Microservicios\customer-service\src\main\java\com\nttdata\customerservice\security\JwtAuthenticationWebFilter.java">
+</file>
+</checkstyle>

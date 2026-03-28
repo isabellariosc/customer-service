@@ -1,0 +1,3 @@
+com\nttdata\customerservice\domain\service\impl\CustomerServiceImplTest.class
+com\nttdata\customerservice\api\CustomerApiIntegrationTest.class
+com\nttdata\customerservice\CustomerServiceApplicationTests.class

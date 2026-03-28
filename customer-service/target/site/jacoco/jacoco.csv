@@ -1,0 +1,24 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+customer-service,com.nttdata.customerservice.security,JwtAuthenticationWebFilter,30,91,6,4,7,20,5,5,0,5
+customer-service,com.nttdata.customerservice.infrastructure.decorator,LoggingCustomerUseCaseDecorator,53,10,0,0,10,2,5,2,5,2
+customer-service,com.nttdata.customerservice,CustomerServiceApplication,5,3,0,0,2,1,1,1,1,1
+customer-service,com.nttdata.customerservice.domain.port,CustomerRecord,0,36,0,0,0,1,0,1,0,1
+customer-service,com.nttdata.customerservice.infrastructure.mongodb,MongoCustomerDataInitializer,41,17,0,0,13,5,1,3,1,3
+customer-service,com.nttdata.customerservice.infrastructure.mongodb,CustomerDocument,474,3,94,0,11,1,73,1,26,1
+customer-service,com.nttdata.customerservice.infrastructure.mongodb,MongoCustomerRepositoryAdapter,114,6,0,0,30,3,7,1,7,1
+customer-service,com.nttdata.customerservice.domain.mapper,CustomerMapper,29,148,2,2,7,50,3,5,1,5
+customer-service,com.nttdata.customerservice.api.dto,CustomerResponseDto.CustomerResponseDtoBuilder,20,70,0,0,0,1,1,11,1,11
+customer-service,com.nttdata.customerservice.api.dto,CustomerResponseDto,365,61,78,0,1,10,52,11,13,11
+customer-service,com.nttdata.customerservice.api.dto,CustomerUpdateRequestDto,197,38,46,0,0,6,27,11,4,11
+customer-service,com.nttdata.customerservice.api.dto,CustomerCreateRequestDto,230,45,54,0,0,7,31,13,4,13
+customer-service,com.nttdata.customerservice.generated.api,CustomerApiController.new CustomerApiDelegate() {...},0,6,0,0,0,1,0,1,0,1
+customer-service,com.nttdata.customerservice.generated.api,CustomerApiController,0,16,0,0,0,4,0,2,0,2
+customer-service,com.nttdata.customerservice.generated.api,CustomerApiDelegate,173,0,16,0,40,0,14,0,6,0
+customer-service,com.nttdata.customerservice.generated.api,ApiUtil,25,0,0,0,6,0,2,0,2,0
+customer-service,com.nttdata.customerservice.generated.api,CustomerApi,30,6,0,0,5,1,5,1,5,1
+customer-service,com.nttdata.customerservice.generated.api,CustomerApi.new CustomerApiDelegate() {...},6,0,0,0,1,0,1,0,1,0
+customer-service,com.nttdata.customerservice.domain.policy,CustomerValidationPolicy,32,69,14,14,5,14,14,6,0,6
+customer-service,com.nttdata.customerservice.generated.model,UpdateCustomerRequest,235,0,18,0,55,0,30,0,21,0
+customer-service,com.nttdata.customerservice.generated.model,CustomerResponse,284,75,26,0,49,28,26,19,13,19
+customer-service,com.nttdata.customerservice.generated.model,CreateCustomerRequest,230,45,20,0,44,20,21,13,11,13
+customer-service,com.nttdata.customerservice.domain.service.impl,CustomerServiceImpl,167,163,5,3,29,41,19,12,15,12

@@ -1,0 +1,7 @@
+src/main/java/com/nttdata/customerservice/generated/api/ApiUtil.java
+src/main/java/com/nttdata/customerservice/generated/api/CustomerApi.java
+src/main/java/com/nttdata/customerservice/generated/api/CustomerApiController.java
+src/main/java/com/nttdata/customerservice/generated/api/CustomerApiDelegate.java
+src/main/java/com/nttdata/customerservice/generated/model/CreateCustomerRequest.java
+src/main/java/com/nttdata/customerservice/generated/model/CustomerResponse.java
+src/main/java/com/nttdata/customerservice/generated/model/UpdateCustomerRequest.java

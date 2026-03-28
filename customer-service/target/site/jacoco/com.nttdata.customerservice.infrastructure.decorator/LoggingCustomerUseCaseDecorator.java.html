@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoggingCustomerUseCaseDecorator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">customer-service</a> &gt; <a href="index.source.html" class="el_package">com.nttdata.customerservice.infrastructure.decorator</a> &gt; <span class="el_source">LoggingCustomerUseCaseDecorator.java</span></div><h1>LoggingCustomerUseCaseDecorator.java</h1><pre class="source lang-java linenums">package com.nttdata.customerservice.infrastructure.decorator;
+
+import com.nttdata.customerservice.api.dto.CustomerCreateRequestDto;
+import com.nttdata.customerservice.api.dto.CustomerResponseDto;
+import com.nttdata.customerservice.api.dto.CustomerUpdateRequestDto;
+import com.nttdata.customerservice.domain.port.CustomerUseCase;
+import com.nttdata.customerservice.domain.service.CustomerService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+<span class="fc" id="L15">@Slf4j</span>
+@Primary
+@Component
+<span class="fc" id="L18">@RequiredArgsConstructor</span>
+public class LoggingCustomerUseCaseDecorator implements CustomerUseCase {
+
+    private final CustomerService delegate;
+
+    @Override
+    public Mono&lt;CustomerResponseDto&gt; create(CustomerCreateRequestDto request, String requestedBy) {
+<span class="nc" id="L25">        log.info(&quot;Create customer requested by user={} documentNumber={}&quot;, requestedBy, request.getDocumentNumber());</span>
+<span class="nc" id="L26">        return delegate.create(request, requestedBy);</span>
+    }
+
+    @Override
+    public Mono&lt;CustomerResponseDto&gt; findById(String customerId) {
+<span class="nc" id="L31">        log.info(&quot;Find customer requested customerId={}&quot;, customerId);</span>
+<span class="nc" id="L32">        return delegate.findById(customerId);</span>
+    }
+
+    @Override
+    public Flux&lt;CustomerResponseDto&gt; findAll(String documentNumber) {
+<span class="nc" id="L37">        log.info(&quot;List customers requested documentNumber={}&quot;, documentNumber);</span>
+<span class="nc" id="L38">        return delegate.findAll(documentNumber);</span>
+    }
+
+    @Override
+    public Mono&lt;CustomerResponseDto&gt; update(String customerId, CustomerUpdateRequestDto request, String requestedBy) {
+<span class="nc" id="L43">        log.info(&quot;Update customer requested by user={} customerId={}&quot;, requestedBy, customerId);</span>
+<span class="nc" id="L44">        return delegate.update(customerId, request, requestedBy);</span>
+    }
+
+    @Override
+    public Mono&lt;Void&gt; delete(String customerId, String requestedBy) {
+<span class="nc" id="L49">        log.info(&quot;Delete customer requested by user={} customerId={}&quot;, requestedBy, customerId);</span>
+<span class="nc" id="L50">        return delegate.delete(customerId, requestedBy);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

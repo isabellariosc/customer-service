@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">customer-service</a> &gt; <a href="index.source.html" class="el_package">com.nttdata.customerservice.domain.service.impl</a> &gt; <span class="el_source">CustomerServiceImpl.java</span></div><h1>CustomerServiceImpl.java</h1><pre class="source lang-java linenums">package com.nttdata.customerservice.domain.service.impl;
+
+import com.nttdata.customerservice.api.dto.CustomerCreateRequestDto;
+import com.nttdata.customerservice.api.dto.CustomerResponseDto;
+import com.nttdata.customerservice.api.dto.CustomerUpdateRequestDto;
+import com.nttdata.customerservice.domain.mapper.CustomerMapper;
+import com.nttdata.customerservice.domain.policy.CustomerValidationPolicy;
+import com.nttdata.customerservice.domain.port.CustomerRecord;
+import com.nttdata.customerservice.domain.port.CustomerRepositoryPort;
+import com.nttdata.customerservice.domain.service.CustomerService;
+import com.nttdata.customerservice.generated.api.CustomerApiDelegate;
+import com.nttdata.customerservice.generated.model.CreateCustomerRequest;
+import com.nttdata.customerservice.generated.model.CustomerResponse;
+import com.nttdata.customerservice.generated.model.UpdateCustomerRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+
+<span class="fc" id="L27">@Slf4j</span>
+@Service
+<span class="fc" id="L29">@RequiredArgsConstructor</span>
+public class CustomerServiceImpl implements CustomerService, CustomerApiDelegate {
+
+    private final CustomerValidationPolicy customerValidationPolicy;
+    private final CustomerRepositoryPort customerRepositoryPort;
+
+    @Override
+    public Mono&lt;CustomerResponseDto&gt; create(CustomerCreateRequestDto request, String requestedBy) {
+<span class="fc" id="L37">        customerValidationPolicy.validateRequestedBy(requestedBy);</span>
+<span class="fc" id="L38">        customerValidationPolicy.validateCreate(request);</span>
+
+<span class="fc" id="L40">        return customerRepositoryPort.findByDocumentNumber(request.getDocumentNumber())</span>
+<span class="pc" id="L41">                .flatMap(existing -&gt; Mono.&lt;CustomerResponseDto&gt;error(</span>
+                        new ResponseStatusException(HttpStatus.CONFLICT, &quot;Customer already exists&quot;)))
+<span class="fc" id="L43">                .switchIfEmpty(</span>
+<span class="fc" id="L44">                        Mono.defer(() -&gt; customerRepositoryPort.save(CustomerMapper.toNewRecord(request, requestedBy))</span>
+<span class="fc" id="L45">                                .map(CustomerMapper::toDto)))</span>
+<span class="fc" id="L46">                .cast(CustomerResponseDto.class)</span>
+<span class="fc" id="L47">                .subscribeOn(Schedulers.boundedElastic())</span>
+<span class="fc" id="L48">                .doOnError(</span>
+<span class="nc" id="L49">                        ex -&gt; log.error(&quot;Error creating customer documentNumber={}&quot;, request.getDocumentNumber(), ex))</span>
+<span class="fc" id="L50">                .onErrorResume(DuplicateKeyException.class,</span>
+<span class="nc" id="L51">                        ex -&gt; Mono.error(new ResponseStatusException(HttpStatus.CONFLICT, &quot;Customer already exists&quot;)));</span>
+    }
+
+    @Override
+    public Mono&lt;CustomerResponseDto&gt; findById(String customerId) {
+<span class="nc" id="L56">        customerValidationPolicy.validateCustomerId(customerId);</span>
+<span class="nc" id="L57">        return customerRepositoryPort.findById(customerId)</span>
+<span class="nc" id="L58">                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Customer not found&quot;)))</span>
+<span class="nc" id="L59">                .publishOn(Schedulers.parallel())</span>
+<span class="nc" id="L60">                .map(CustomerMapper::toDto)</span>
+<span class="nc" id="L61">                .doOnError(ex -&gt; log.error(&quot;Error retrieving customerId={}&quot;, customerId, ex));</span>
+    }
+
+    @Override
+    public Flux&lt;CustomerResponseDto&gt; findAll(String documentNumber) {
+<span class="pc bpc" id="L66" title="3 of 4 branches missed.">        Flux&lt;CustomerRecord&gt; source = documentNumber == null || documentNumber.isBlank()</span>
+<span class="fc" id="L67">                ? customerRepositoryPort.findAll()</span>
+<span class="pc" id="L68">                : customerRepositoryPort.findByDocumentNumber(documentNumber).flux();</span>
+
+<span class="fc" id="L70">        return source</span>
+<span class="fc" id="L71">                .publishOn(Schedulers.parallel())</span>
+<span class="fc" id="L72">                .map(CustomerMapper::toDto)</span>
+<span class="fc" id="L73">                .doOnError(ex -&gt; log.error(&quot;Error listing customers documentNumber={}&quot;, documentNumber, ex))</span>
+<span class="fc" id="L74">                .collectList()</span>
+<span class="fc" id="L75">                .onErrorReturn(java.util.List.of())</span>
+<span class="fc" id="L76">                .flatMapMany(Flux::fromIterable);</span>
+    }
+
+    @Override
+    public Mono&lt;CustomerResponseDto&gt; update(String customerId, CustomerUpdateRequestDto request, String requestedBy) {
+<span class="fc" id="L81">        customerValidationPolicy.validateRequestedBy(requestedBy);</span>
+<span class="fc" id="L82">        customerValidationPolicy.validateUpdate(customerId, request);</span>
+
+<span class="fc" id="L84">        return customerRepositoryPort.findById(customerId)</span>
+<span class="fc" id="L85">                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Customer not found&quot;)))</span>
+<span class="fc" id="L86">                .map(current -&gt; CustomerMapper.merge(current, request))</span>
+<span class="fc" id="L87">                .publishOn(Schedulers.boundedElastic())</span>
+<span class="fc" id="L88">                .flatMap(customerRepositoryPort::save)</span>
+<span class="fc" id="L89">                .map(CustomerMapper::toDto)</span>
+<span class="pc" id="L90">                .doOnError(ex -&gt; log.error(&quot;Error updating customerId={}&quot;, customerId, ex))</span>
+<span class="fc" id="L91">                .onErrorResume(DuplicateKeyException.class,</span>
+<span class="nc" id="L92">                        ex -&gt; Mono.error(new ResponseStatusException(HttpStatus.CONFLICT, &quot;Duplicated customer data&quot;)));</span>
+    }
+
+    @Override
+    public Mono&lt;Void&gt; delete(String customerId, String requestedBy) {
+<span class="nc" id="L97">        customerValidationPolicy.validateRequestedBy(requestedBy);</span>
+<span class="nc" id="L98">        customerValidationPolicy.validateCustomerId(customerId);</span>
+
+<span class="nc" id="L100">        return customerRepositoryPort.findById(customerId)</span>
+<span class="nc" id="L101">                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, &quot;Customer not found&quot;)))</span>
+<span class="nc" id="L102">                .flatMap(existing -&gt; customerRepositoryPort.deleteById(existing.customerId()))</span>
+<span class="nc" id="L103">                .doOnError(ex -&gt; log.error(&quot;Error deleting customerId={}&quot;, customerId, ex))</span>
+<span class="nc" id="L104">                .onErrorResume(ResponseStatusException.class, Mono::error);</span>
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;CustomerResponse&gt;&gt; createCustomer(
+            Mono&lt;CreateCustomerRequest&gt; createCustomerRequest,
+            ServerWebExchange exchange) {
+<span class="fc" id="L111">        return createCustomerRequest</span>
+<span class="fc" id="L112">                .map(CustomerMapper::toCreateDto)</span>
+<span class="fc" id="L113">                .flatMap(request -&gt; create(request, authenticatedUser(exchange)))</span>
+<span class="fc" id="L114">                .map(CustomerMapper::toGenerated)</span>
+<span class="fc" id="L115">                .map(body -&gt; ResponseEntity.status(HttpStatus.CREATED).body(body));</span>
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;Void&gt;&gt; deleteCustomer(String customerId, ServerWebExchange exchange) {
+<span class="nc" id="L120">        return delete(customerId, authenticatedUser(exchange))</span>
+<span class="nc" id="L121">                .thenReturn(ResponseEntity.noContent().build());</span>
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;CustomerResponse&gt;&gt; getCustomerById(String customerId, ServerWebExchange exchange) {
+<span class="nc" id="L126">        return findById(customerId)</span>
+<span class="nc" id="L127">                .map(CustomerMapper::toGenerated)</span>
+<span class="nc" id="L128">                .map(ResponseEntity::ok);</span>
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;Flux&lt;CustomerResponse&gt;&gt;&gt; getCustomers(String documentNumber,
+            ServerWebExchange exchange) {
+<span class="nc" id="L134">        Flux&lt;CustomerResponse&gt; body = findAll(documentNumber).map(CustomerMapper::toGenerated);</span>
+<span class="nc" id="L135">        return Mono.just(ResponseEntity.ok(body));</span>
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;CustomerResponse&gt;&gt; updateCustomer(
+            String customerId,
+            Mono&lt;UpdateCustomerRequest&gt; updateCustomerRequest,
+            ServerWebExchange exchange) {
+<span class="nc" id="L143">        return updateCustomerRequest</span>
+<span class="nc" id="L144">                .map(CustomerMapper::toUpdateDto)</span>
+<span class="nc" id="L145">                .flatMap(request -&gt; update(customerId, request, authenticatedUser(exchange)))</span>
+<span class="nc" id="L146">                .map(CustomerMapper::toGenerated)</span>
+<span class="nc" id="L147">                .map(ResponseEntity::ok);</span>
+    }
+
+    private String authenticatedUser(ServerWebExchange exchange) {
+<span class="fc" id="L151">        String requestedBy = exchange.getRequest().getHeaders().getFirst(&quot;X-Auth-User&quot;);</span>
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">        if (requestedBy == null || requestedBy.isBlank()) {</span>
+<span class="nc" id="L153">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, &quot;Missing authenticated user&quot;);</span>
+        }
+<span class="fc" id="L155">        return requestedBy;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
